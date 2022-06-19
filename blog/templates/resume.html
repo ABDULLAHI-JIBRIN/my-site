@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="col-md-6">
+        {% if messages %}
+        {% for message in  messages %}
+        <div class="alert alert-{{message.tags}}">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+</div>
+<div class="container mt-4">
+<div class="row justify-content-center">
+    {% for i in information %}
+    <div class="col-md-6 my-resume">
+        <div class="row mt-4">
+            <div class="col">
+                <img src="{{i.image.url}}" style="float:left ; width:45%; border-radius:10px; margin-right:20px" alt="">
+
+            <!-- </div>
+            <div class="col"> -->
+                <h5>{{i.name}}</h5>
+                <h5>{{i.address}}</h5>
+                <h5>{{i.phone}}</h5>
+                <small>{{i.email}}</small>
+
+            </div>
+            <div class="summary mb-4">
+                <h5 class="text-center mt-4">Summary</h5>
+                {{i.summary}}
+            </div>
+
+            <div class="project">
+                <h5 class="">Projects</h5>
+                {% for p in i.project.all %}
+                <ul>
+                    <li>{{p.title}}</li>
+                </ul>
+                {% endfor %}
+            </div>
+
+            <div class="education">
+                <h5 class="">Educations</h5>
+                {% for e in i.education.all %}
+                <ul>
+                    <li>{{e.title}}</li>
+                </ul>
+                {% endfor %}
+            </div>
+            <div class="certificate">
+                <h5 class="">Certificates</h5>
+                {% for c in i.certificate.all %}
+                <ul>
+                    <li>{{c.title}}</li>
+                </ul>
+                {% endfor %}
+            </div>
+            <div class="skill">
+                <h5>Skills</h5>
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                        <h5 class="">Technical Skills</h5>
+                        {% for t in i.technical_skill.all %}
+                        <ul>
+                            <li>{{t.title}}</li>
+                        </ul>
+                        {% endfor %}
+                        
+
+                    </div>
+                    <div class="col">
+                        <hr>
+                        <h5 class="">Non-technical skill</h5>
+                        {% for n in i.non_technical_skill.all %}
+                        <ul>
+                            <li>{{n.title}}</li>
+                        </ul>
+                        {% endfor %}
+
+                    </div>
+                    {% if request.user.is_superuser %}
+                    <p>
+                        <a class="btn btn-primary" href="{% url 'update-resume' i.id %}">Update resume</a>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
+</div>
+{% endblock %}

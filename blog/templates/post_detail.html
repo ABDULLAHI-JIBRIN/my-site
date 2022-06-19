@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-4">
+    <div class="col-md-6">
+        {% if messages %}
+        {% for message in  messages %}
+        <div class="alert alert-{{message.tags}}">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            {% if request.user == post.author %}
+            <p>
+                <a href="{% url 'delete-post' post.id %}"><span class="badge bg-danger">Delete</span></a>
+                <a href="{% url 'update-post' post.id %}"><span class="badge bg-warning text-dark">Update</span></a>
+            </p>
+            {% endif %}
+            <div class="post-image mb-4">
+                <img src="{{post.image.url}}" style="width: 100%;" alt="">
+
+            </div>
+            <div class="post">
+                <img src="{{post.author.profile.image.url}}" alt="">
+                <div class="post-content">
+                    <h5>{{post.title}}</h5>
+                    <small>
+                        By {{post.author}} | {{post.date|timesince}}
+                    </small>
+                    <p>
+                        {{post.content}}
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <fieldset>
+        <legend class="border-bottom mb-4">Comments</legend>
+    </fieldset>
+    {% for c in post.get_comments %}
+    <div class="col-md-8">
+        <img src="{{c.user.profile.image.url}}" style="width: 40px; border-radius:10px; float:left; margin-right:10px;" alt="">
+        <div>
+            <small>
+                {{c.user.username}} | {{c.date|timesince}} ago
+            </small>
+            <p>{{c.content}}</p>
+            <p><a style="text-decoration:none ; color:brown" href="{% url 'reply' c.id %}">reply</a></p>
+        </div>
+
+    </div>
+        <div class="col-md-6">
+            {% for r in c.get_replies %}
+            <img class="rounded-circle" src="{{r.user.profile.image.url}}"  style="width: 40px; margin-left:25px; float:left; margin-right:10px;" alt="">
+            <small>
+                {{r.user.username}} | {{r.date|timesince}} ago
+            </small>
+            <div class="reply-content">
+                {{r.content}}
+
+            </div>
+            {% endfor %}
+
+        </div>
+    {% endfor %}
+
+<div class="container mt-4">
+    {% if request.user.is_authenticated %}
+    <fieldset><legend class="border-bottom mb-4">Type a Comment</legend></fieldset>
+    <div class="col-md-6">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button class="btn btn-primary mt-4">Comment</button>
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+</div>
+{% endblock content %}

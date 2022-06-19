@@ -1,0 +1,45 @@
+body {
+    background-color: white;
+}
+
+
+.carousel-item{
+    height: 100vh;
+    min-height: 300px;
+}
+
+
+.carousel-caption {
+    bottom: 350px;
+}
+
+.post img {
+    float: left;
+    width: 40px;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+
+.reply-content {
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: darkgray;
+    margin-left: 60px;
+    margin-top: 20px;
+}
+
+
+.info {
+    margin-top: 30px;
+}
+
+.info img {
+    float: left;
+    width: 40%;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+
+.my-resume {
+    border: 2px solid red;
+}
